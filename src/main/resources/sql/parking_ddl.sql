@@ -87,3 +87,22 @@ CHANGE COLUMN `ticket_amount` `ticket_amount` DOUBLE NULL ;
 ALTER TABLE `parking_management_db`.`parking_rate`
 DROP COLUMN `hours`,
 ADD COLUMN `parking_spot_type` ENUM('HANDICAPPED', 'COMPACT', 'LARGE', 'MOTORBIKE', 'ELECTRIC') NOT NULL AFTER `hourly_rate`;
+
+
+----Parking ticket query v2
+ALTER TABLE `parking_management_db`.`parking_ticket`
+DROP COLUMN `vehicle_type`;
+
+
+-- DDL update for parking_ticket to include spot_id and vehicle_number
+ALTER TABLE `parking_management_db`.`parking_ticket`
+ADD COLUMN `spot_id` VARCHAR(256) NOT NULL AFTER `ticket_status`,
+ADD COLUMN `vehicle_number` VARCHAR(45) NOT NULL AFTER `spot_id`,
+ADD INDEX `spot_id_idx` (`spot_id` ASC) VISIBLE;
+;
+ALTER TABLE `parking_management_db`.`parking_ticket`
+ADD CONSTRAINT `spot_id`
+  FOREIGN KEY (`spot_id`)
+  REFERENCES `parking_management_db`.`parking_spot` (`spot_id`)
+  ON DELETE RESTRICT
+  ON UPDATE CASCADE;
