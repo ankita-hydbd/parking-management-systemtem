@@ -1,7 +1,5 @@
 package com.example.parkingmanagementsystem.parking.floor;
 
-import com.example.parkingmanagementsystem.parking.spot.ParkingSpot;
-
 import java.util.List;
 
 public interface ParkingFloorService {
@@ -10,5 +8,10 @@ public interface ParkingFloorService {
     public String deleteParkingFloor(String floorId);
     public ParkingFloor getParkingFloor(String floorId);
     public List<ParkingFloor> getAllParkingFloor();
+
+    public Integer updateParkingFloorStatus(String floorId, FloorStatus floorStatus);
+
+    public Integer updateMultipleParkingFloorStatus(List<String> floorIdList, FloorStatus floorStatus);
+
 
 }

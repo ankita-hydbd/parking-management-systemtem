@@ -1,6 +1,6 @@
 package com.example.parkingmanagementsystem.parking.ticket.book;
 
-import com.example.parkingmanagementsystem.config.ParkingManagementConfig;
+import com.example.parkingmanagementsystem.config.ParkingManagementProperties;
 import com.example.parkingmanagementsystem.parking.spot.ParkingSpot;
 import com.example.parkingmanagementsystem.parking.spot.ParkingSpotService;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingTicket;
@@ -22,11 +22,11 @@ public class BookTicketController {
 
     private final ParkingTicketService parkingTicketService;
     private final ParkingSpotService parkingSpotService;
-    private final ParkingManagementConfig config;
+    private final ParkingManagementProperties config;
 
     public BookTicketController(ParkingTicketService parkingTicketService,
                                 ParkingSpotService parkingSpotService,
-                                ParkingManagementConfig config) {
+                                ParkingManagementProperties config) {
         this.parkingTicketService = parkingTicketService;
         this.parkingSpotService = parkingSpotService;
         this.config = config;
@@ -62,8 +62,6 @@ public class BookTicketController {
         log.info("Parking Ticket Details = {}", bookedTicket);
 
         final LocalDateTime endTime = LocalDateTime.now();
-
-        // Reference - https://stackoverflow.com/a/25760725
         final long parkingDurationMins = bookedTicket.getStartTime().until(endTime, ChronoUnit.MINUTES);
 
         // Fetch the spot type from ParkingSpot table.
@@ -99,21 +97,10 @@ public class BookTicketController {
         log.info("Booked Ticket details = {}", bookedTicket);
 
         // prepare updated records
-        final ParkingTicket ticketUpdatedWithFareAndStatus = bookedTicket.toBuilder()
+        ParkingTicket ticketUpdatedWithFareAndStatus = bookedTicket.toBuilder()
                 .ticketAmount(closeTicketRequest.getTicketAmount())
-                .ticketStatus(closeTicketRequest.getTicketStatus())
-                .endTime(LocalDateTime.now())
-                .build();
-        log.info("Updated Ticket details = {}", ticketUpdatedWithFareAndStatus);
-
+                .ticketStatus(closeTicketRequest.getTicketStatus()).build();
+      return ticketUpdatedWithFareAndStatus;
         // save and return final ticket record
-        final ParkingTicket savedTicketDetails = parkingTicketService.updateParkingTicket(ticketUpdatedWithFareAndStatus);
-        log.info("Saved ticket details = {}", savedTicketDetails);
-
-        // Now mark spot as free
-        Integer updatedRecordCount = parkingSpotService.updateParkingSpotStatus(savedTicketDetails.getSpotId(), true);
-        log.info("Updated spot record count = {}", updatedRecordCount);
-
-        return savedTicketDetails;
     }
 }

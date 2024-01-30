@@ -1,7 +1,7 @@
 package com.example.parkingmanagementsystem.parking.ticket;
 
 
-import com.example.parkingmanagementsystem.config.ParkingManagementConfig;
+import com.example.parkingmanagementsystem.config.ParkingManagementProperties;
 import com.example.parkingmanagementsystem.parking.ticket.exception.ParkingTicketNotFoundException;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
+
 @Log4j2
 public class ParkingTicketServiceImpl implements ParkingTicketService{
     private ParkingTicketRepository parkingTicketRepository;
-    private ParkingManagementConfig config;
+    private ParkingManagementProperties config;
 
     public ParkingTicketServiceImpl(ParkingTicketRepository parkingTicketRepository,
-                                    ParkingManagementConfig config) {
+                                    ParkingManagementProperties config) {
         this.parkingTicketRepository = parkingTicketRepository;
         this.config = config;
     }

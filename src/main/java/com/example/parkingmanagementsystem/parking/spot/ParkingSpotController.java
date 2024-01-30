@@ -1,19 +1,24 @@
 package com.example.parkingmanagementsystem.parking.spot;
 
+import com.example.parkingmanagementsystem.parking.spot.dto.ParkingSpotDTO;
 import com.example.parkingmanagementsystem.parking.spot.model.ParkingRequest;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ParkingSpot")
 @Log4j2
 public class ParkingSpotController {
 
-    ParkingSpotService parkingSpotService;
+    private final ModelMapper modelMapper;
+    private final ParkingSpotService parkingSpotService;
 
-    public ParkingSpotController(ParkingSpotService parkingSpotService) {
+    public ParkingSpotController(ModelMapper modelMapper, ParkingSpotService parkingSpotService) {
+        this.modelMapper = modelMapper;
         this.parkingSpotService = parkingSpotService;
     }
 
@@ -49,8 +54,16 @@ public class ParkingSpotController {
     }
 
     @GetMapping("/FindAvailableSpot")
-    public ParkingSpot findAvailableSpot(@RequestBody final ParkingRequest parkingRequest) {
+    public List<ParkingSpot> findAvailableSpot(@RequestBody final ParkingRequest parkingRequest) {
         log.info("Received parking request = {}", parkingRequest);
-        return parkingSpotService.findAvailableSpotByLotAndType(parkingRequest);
+        return parkingSpotService.findAvailableFloorIdSpotIdBySpotType(parkingRequest);
+    }
+
+    @GetMapping("/v2")
+    public List<ParkingSpotDTO> getAllParkingSpotV2() {
+        return parkingSpotService.getAllParkingSpot().stream()
+                .map(parkingSpot -> modelMapper.map(parkingSpot,ParkingSpotDTO.class))
+                    .collect(Collectors.toList());
+
     }
 }

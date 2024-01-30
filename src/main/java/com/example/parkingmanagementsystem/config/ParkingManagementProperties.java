@@ -5,10 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
+
 @Data
 @Configuration
-@ConfigurationProperties("pms2")
+@ConfigurationProperties("pms")
+public class ParkingManagementProperties {
 
-public class FloorAvailabilityConfig {
-    private Map<String, Integer> FloorAvailabilityStatus;
+    private Map<String, Integer> hourlyRate;
 }
