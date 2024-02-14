@@ -3,6 +3,8 @@ package com.example.parkingmanagementsystem.parking.spot;
 import com.example.parkingmanagementsystem.parking.floor.FloorStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -69,6 +71,46 @@ and ps.is_free='true' and pf.status='AVAILABLE' AND ps.parking_spot_type='COMPAC
 //            String floorIdList,
             @Param("isFree") Boolean isFree);
 //            String spotId);
+
+
+    @Transactional
+    @Query("SELECT p.parkingSpotType, p.floorId, COUNT(*) AS availableCount " +
+            "FROM ParkingSpot p " +
+            "WHERE p.isFree = true " +
+            "GROUP BY p.parkingSpotType, p.floorId")
+    List<Object[]> CountAvailableSpotType(
+//            @Param("floorId") String floorId,
+//            @Param("ParkingSpotType") ParkingSpotType parkingSpotType,
+//
+    );
+
+
+    @Query(value = "select p.* from parking_spot p where p.is_free=:isFree and p.parking_spot_type =:parkingSpotType " +
+            " limit :count", nativeQuery = true)
+    List<ParkingSpot> getAvailableSpotType(
+            @Param("isFree") Boolean isFree,
+            @Param("count") int count,
+            @Param("parkingSpotType") String parkingSpotType
+    );
+
+    @Query(value = "select p from ParkingSpot p where p.isFree=:isFree and p.parkingSpotType =:parkingSpotType")
+    List<ParkingSpot> getAvailableSpotType(
+            @Param("isFree") Boolean isFree,
+            @Param("parkingSpotType") ParkingSpotType parkingSpotType,
+            final Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update ParkingSpot p set p.isFree=:isFreeUpdated where p.isFree=:isFreeExisting " +
+            "and p.spotId in :spotIdList")
+    Integer updateBatchBookSpotAvailability(
+            @Param("isFreeUpdated") Boolean isFreeUpdated,
+            @Param("isFreeExisting") Boolean isFreeExisting,
+            @Param("spotIdList") List<String> spotIdList
+    );
+
+
+
 }
 
   

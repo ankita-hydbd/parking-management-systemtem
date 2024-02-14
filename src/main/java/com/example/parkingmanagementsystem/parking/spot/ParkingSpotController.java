@@ -66,4 +66,11 @@ public class ParkingSpotController {
                     .collect(Collectors.toList());
 
     }
+
+    @GetMapping("/SpotCount")
+    public List<Object[]> CountAvailableSpotType()
+    {
+        log.info("successfully found spot availability count={} ");
+        return parkingSpotService.CountAvailableSpotType();
+    }
 }

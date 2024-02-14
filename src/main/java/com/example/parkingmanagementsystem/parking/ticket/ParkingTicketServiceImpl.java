@@ -2,16 +2,18 @@ package com.example.parkingmanagementsystem.parking.ticket;
 
 
 import com.example.parkingmanagementsystem.config.ParkingManagementProperties;
+import com.example.parkingmanagementsystem.parking.ticket.book.BulkTicketBookResponse;
 import com.example.parkingmanagementsystem.parking.ticket.exception.ParkingTicketNotFoundException;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 
 @Log4j2
-public class ParkingTicketServiceImpl implements ParkingTicketService{
+public class ParkingTicketServiceImpl implements ParkingTicketService {
     private ParkingTicketRepository parkingTicketRepository;
     private ParkingManagementProperties config;
 
@@ -28,6 +30,11 @@ public class ParkingTicketServiceImpl implements ParkingTicketService{
     }
 
     @Override
+    public List<ParkingTicket> createParkingTicketBatch(List<ParkingTicket> parkingTicketList) {
+        return parkingTicketRepository.saveAll(parkingTicketList);
+    }
+
+    @Override
     public ParkingTicket updateParkingTicket(ParkingTicket parkingTicket) {
         return parkingTicketRepository.save(parkingTicket);
     }
@@ -40,11 +47,11 @@ public class ParkingTicketServiceImpl implements ParkingTicketService{
 
     @SneakyThrows
     @Override
-    public ParkingTicket getParkingTicket(String tokenNumber)  {
-        if(parkingTicketRepository.findById(tokenNumber).isEmpty())
+    public ParkingTicket getParkingTicket(String tokenNumber) {
+        if (parkingTicketRepository.findById(tokenNumber).isEmpty())
             throw new ParkingTicketNotFoundException("ParkingTicket detail doesn't exist");
 
-        return  parkingTicketRepository.findById(tokenNumber).get();
+        return parkingTicketRepository.findById(tokenNumber).get();
     }
 
     @Override
@@ -52,4 +59,7 @@ public class ParkingTicketServiceImpl implements ParkingTicketService{
         log.info("Config values = {}", config);
         return parkingTicketRepository.findAll();
     }
+
+
+
 }

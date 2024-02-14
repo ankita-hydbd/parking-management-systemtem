@@ -1,6 +1,7 @@
 package com.example.parkingmanagementsystem.parking.ticket;
 
 
+import com.example.parkingmanagementsystem.parking.spot.ParkingSpot;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 

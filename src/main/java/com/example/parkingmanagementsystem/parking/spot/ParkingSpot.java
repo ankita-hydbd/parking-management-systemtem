@@ -20,7 +20,6 @@ public class ParkingSpot {
     @Enumerated(EnumType.STRING)
     private ParkingSpotType parkingSpotType;
 
-
     @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
     private Boolean isFree;
 }

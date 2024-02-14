@@ -2,26 +2,29 @@ package com.example.parkingmanagementsystem.parking.spot;
 
 import com.example.parkingmanagementsystem.parking.lot.exception.ParkingLotNotFoundException;
 import com.example.parkingmanagementsystem.parking.spot.model.ParkingRequest;
+import com.example.parkingmanagementsystem.parking.ticket.ParkingSpotCountRequest;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @Log4j2
-class ParkingSpotServiceImpl implements ParkingSpotService{
+class ParkingSpotServiceImpl implements ParkingSpotService {
     private ParkingSpotRepository parkingSpotRepository;
 
     public ParkingSpotServiceImpl(ParkingSpotRepository parkingSpotRepository) {
-        this.parkingSpotRepository=parkingSpotRepository;
+        this.parkingSpotRepository = parkingSpotRepository;
     }
 
 
     @Override
     public String createParkingSpot(ParkingSpot parkingSpot) {
-       parkingSpotRepository.save(parkingSpot);
+        parkingSpotRepository.save(parkingSpot);
         return "successfully created";
     }
 
@@ -39,8 +42,8 @@ class ParkingSpotServiceImpl implements ParkingSpotService{
 
     @SneakyThrows
     @Override
-    public ParkingSpot getParkingSpot(String spotId)  {
-        if(parkingSpotRepository.findById(spotId).isEmpty())
+    public ParkingSpot getParkingSpot(String spotId) {
+        if (parkingSpotRepository.findById(spotId).isEmpty())
             throw new ParkingLotNotFoundException("ParkingSpot detail doesn't exist");
 
         return parkingSpotRepository.findById(spotId).get();
@@ -52,7 +55,6 @@ class ParkingSpotServiceImpl implements ParkingSpotService{
     }
 
 
-
     @Override
     public List<ParkingSpot> findAvailableFloorIdSpotIdBySpotType(ParkingRequest parkingRequest) {
         List<ParkingSpot> availableParkingFloorAndSpotList =
@@ -62,7 +64,7 @@ class ParkingSpotServiceImpl implements ParkingSpotService{
                         parkingRequest.getStatus().name(),
                         //parkingRequest.getFloorIdList(),
                         parkingRequest.getIsFree());
-                        //parkingRequest.getSpotId());
+        //parkingRequest.getSpotId());
         log.info("Query Result = {}", availableParkingFloorAndSpotList);
         return availableParkingFloorAndSpotList;
     }
@@ -71,5 +73,48 @@ class ParkingSpotServiceImpl implements ParkingSpotService{
     public Integer updateParkingSpotStatus(String spotId, Boolean isFree) {
         return parkingSpotRepository.updateParkingSpotStatus(spotId, isFree);
     }
+
+    public List<Object[]> CountAvailableSpotType() {
+        return parkingSpotRepository.CountAvailableSpotType();
+    }
+
+
+    public List<ParkingSpot> getAvailableSpotType(ParkingSpotCountRequest parkingSpotCountRequest) {
+        List<ParkingSpot> availableSpotType =
+//                parkingSpotRepository.getAvailableSpotType(parkingSpotCountRequest.getIsFree(),
+//                        parkingSpotCountRequest.getParkingSpotType(),
+//                        PageRequest.of(0, parkingSpotCountRequest.getCount()));
+
+//                parkingSpotRepository.getAvailableSpotType(
+//                        true,
+//                        ParkingSpotType.valueOf(parkingSpotCountRequest.getParkingSpotType().name()),
+//                        parkingSpotCountRequest.getCount()
+//                );
+
+                parkingSpotRepository.getAvailableSpotType(
+                        true,
+                        ParkingSpotType.valueOf(parkingSpotCountRequest.getParkingSpotType().name()),
+                        PageRequest.of(0, parkingSpotCountRequest.getCount())
+                );
+
+        log.info("get available spot type (using pagination) ={}", availableSpotType);
+        return availableSpotType;
+    }
+
+
+    public Integer updateBatchBookSpotAvailability(Boolean isFreeUpdated,
+                                                   Boolean isFreeExisting, List<String> spotIdList) {
+        return parkingSpotRepository.updateBatchBookSpotAvailability(isFreeUpdated, isFreeExisting, spotIdList);
+    }
+
+    public List<ParkingSpot>createParkingSpotBatch(List<ParkingSpot> parkingSpotList)
+    {
+
+     log.info("batch parking spot created ",parkingSpotList);
+        return parkingSpotList;
+
+    }
+
+
 
 }

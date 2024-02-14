@@ -102,5 +102,7 @@ public class BookTicketController {
                 .ticketStatus(closeTicketRequest.getTicketStatus()).build();
       return ticketUpdatedWithFareAndStatus;
         // save and return final ticket record
+
+
     }
 }
