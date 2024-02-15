@@ -1,22 +1,20 @@
 package com.example.parkingmanagementsystem.parking.ticket.book;
 
 import com.example.parkingmanagementsystem.config.ParkingManagementProperties;
-import com.example.parkingmanagementsystem.parking.spot.BatchParkingSpotRequest;
 import com.example.parkingmanagementsystem.parking.spot.ParkingSpot;
 import com.example.parkingmanagementsystem.parking.spot.ParkingSpotService;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingSpotCountRequest;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingTicket;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingTicketService;
 import com.example.parkingmanagementsystem.parking.ticket.TicketStatus;
-import jakarta.websocket.server.PathParam;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.ObjectInputFilter;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController

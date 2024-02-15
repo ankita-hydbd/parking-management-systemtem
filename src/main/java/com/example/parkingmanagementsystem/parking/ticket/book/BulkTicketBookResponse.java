@@ -20,4 +20,3 @@ public class BulkTicketBookResponse {
    BookedSummary bookedSummary;
    private String tokenNumber;
 }
-\
