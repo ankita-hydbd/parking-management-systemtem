@@ -2,7 +2,6 @@ package com.example.parkingmanagementsystem.parking.spot;
 
 import com.example.parkingmanagementsystem.parking.spot.model.ParkingRequest;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingSpotCountRequest;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -28,9 +27,5 @@ public interface ParkingSpotService {
 
     Integer updateBatchBookSpotAvailability(Boolean isFreeUpdated, Boolean isFreeExisting, List<String> spotIdList);
 
-    List<ParkingSpot>createParkingSpotBatch(List<ParkingSpot> parkingSpotList);
-
-
-
-
+    List<ParkingSpot> createParkingSpotBatch(List<ParkingSpot> parkingSpotList);
 }

@@ -73,4 +73,5 @@ public class ParkingSpotController {
         log.info("successfully found spot availability count={} ");
         return parkingSpotService.CountAvailableSpotType();
     }
+
 }

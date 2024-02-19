@@ -7,9 +7,7 @@ import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -107,12 +105,9 @@ class ParkingSpotServiceImpl implements ParkingSpotService {
         return parkingSpotRepository.updateBatchBookSpotAvailability(isFreeUpdated, isFreeExisting, spotIdList);
     }
 
-    public List<ParkingSpot>createParkingSpotBatch(List<ParkingSpot> parkingSpotList)
+    public List<ParkingSpot> createParkingSpotBatch(List<ParkingSpot> parkingSpotList)
     {
-
-     log.info("batch parking spot created ",parkingSpotList);
-        return parkingSpotList;
-
+        return parkingSpotRepository.saveAll(parkingSpotList);
     }
 
 

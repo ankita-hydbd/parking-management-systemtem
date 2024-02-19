@@ -18,11 +18,18 @@ public class BatchParkingSpotController {
 
 
     @PostMapping
-    List<ParkingSpot>createParkingSpotBatch(@RequestBody List<ParkingSpot> parkingSpotList)
+    BatchCreateParkingSpotResponse batchCreateParkingSpot(@RequestBody BatchCreateParkingSpotRequest batchRequest)
     {
-        log.info("Received  batch spotId details = {}", parkingSpotList);
-        return parkingSpotService.createParkingSpotBatch(parkingSpotList);
+        log.info("Received  batch spot create request details = {}", batchRequest);
 
+        List<ParkingSpot> createdParkingSpotList =
+                parkingSpotService.createParkingSpotBatch(batchRequest.getParkingSpotList());
+
+        final BatchCreateParkingSpotResponse batchCreateParkingSpotResponse = new BatchCreateParkingSpotResponse();
+        batchCreateParkingSpotResponse.setCreatedParkingSpotList(createdParkingSpotList);
+
+        log.info("Final batch create response = {}", batchCreateParkingSpotResponse);
+        return batchCreateParkingSpotResponse;
     }
 
 
