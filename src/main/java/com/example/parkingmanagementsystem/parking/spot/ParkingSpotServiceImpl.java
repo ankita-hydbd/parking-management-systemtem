@@ -111,5 +111,9 @@ class ParkingSpotServiceImpl implements ParkingSpotService {
     }
 
 
+    @Override
+    public List<ParkingSpot> getAllParkingSpotByIds(List<String> spotIds) {
+        return parkingSpotRepository.findAllById(spotIds);
+    }
 
 }

@@ -7,11 +7,10 @@ import com.example.parkingmanagementsystem.parking.ticket.ParkingSpotCountReques
 import com.example.parkingmanagementsystem.parking.ticket.ParkingTicket;
 import com.example.parkingmanagementsystem.parking.ticket.ParkingTicketService;
 import com.example.parkingmanagementsystem.parking.ticket.TicketStatus;
+import com.example.parkingmanagementsystem.parking.ticket.book.model.BatchCloseTicketRequest;
+import com.example.parkingmanagementsystem.parking.ticket.book.model.CloseTicketRequest;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,7 +64,22 @@ public class BatchBookTicketController {
         return response;
     }
 
-
+//    @PostMapping("/Close")
+//    ParkingTicket closeTicket(@RequestBody BatchCloseTicketRequest batchCloseTicketRequest) {
+//        log.info("Received tokenNumber = {}, request body = {}",batchCloseTicketRequest);
+//        // fetch ticket details
+//        final ParkingTicket bookedTicket = parkingTicketService.getAllParkingTicket()(tokenNumber);
+//        log.info("Booked Ticket details = {}", bookedTicket);
+//
+//        // prepare updated records
+//        ParkingTicket ticketUpdatedWithFareAndStatus = bookedTicket.toBuilder()
+//                .ticketAmount(closeTicketRequest.getTicketAmount())
+//                .ticketStatus(closeTicketRequest.getTicketStatus()).build();
+//        return ticketUpdatedWithFareAndStatus;
+//        // save and return final ticket record
+//
+//
+//    }
 
 
 }

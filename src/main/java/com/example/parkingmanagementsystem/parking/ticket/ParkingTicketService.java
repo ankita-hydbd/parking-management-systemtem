@@ -17,5 +17,8 @@ public interface ParkingTicketService {
     public List<ParkingTicket> getAllParkingTicket();
 
 
+    public List<ParkingTicket> getAllParkingTicketByIds(List<String> tokenNumberList);
+
+
 
 }

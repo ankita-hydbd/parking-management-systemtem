@@ -60,6 +60,12 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         return parkingTicketRepository.findAll();
     }
 
-
+    @Override
+    public List<ParkingTicket> getAllParkingTicketByIds(List<String> tokenNumberList) {
+        if (parkingTicketRepository.findAllById(tokenNumberList).isEmpty())
+            throw new ParkingTicketNotFoundException("ParkingTicket detail doesn't exist");
+        List<ParkingTicket> ticketList = parkingTicketRepository.findAllById(tokenNumberList);
+        return ticketList;
+    }
 
 }

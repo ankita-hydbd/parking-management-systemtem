@@ -28,4 +28,6 @@ public interface ParkingSpotService {
     Integer updateBatchBookSpotAvailability(Boolean isFreeUpdated, Boolean isFreeExisting, List<String> spotIdList);
 
     List<ParkingSpot> createParkingSpotBatch(List<ParkingSpot> parkingSpotList);
+
+    List<ParkingSpot> getAllParkingSpotByIds(List<String> spotIds);
 }
