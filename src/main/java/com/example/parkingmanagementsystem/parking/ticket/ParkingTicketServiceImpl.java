@@ -68,4 +68,8 @@ public class ParkingTicketServiceImpl implements ParkingTicketService {
         return ticketList;
     }
 
+    public List<ParkingTicket> saveAll(List<ParkingTicket> parkingTicketList) {
+        return parkingTicketRepository.saveAll(parkingTicketList);
+    }
+
 }
