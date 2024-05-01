@@ -55,7 +55,7 @@ public class BatchBookTicketController {
                 .collect(Collectors.toList());
 
         List<ParkingTicket> bookedParkingTicketList = parkingTicketService.createParkingTicketBatch(stagedParkingTicketList);
-        ;
+
         log.info("Booked Parking Tickets = {}", bookedParkingTicketList);
 
 
