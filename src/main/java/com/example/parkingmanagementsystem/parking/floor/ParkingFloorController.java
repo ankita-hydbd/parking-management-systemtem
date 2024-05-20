@@ -19,7 +19,7 @@ public class ParkingFloorController {
     }
 
     @GetMapping("/{FloorId}")
-    public ParkingFloor getParkingSpot(@PathVariable("FloorId") String floorId) {
+    public ParkingFloor getParkingFloor(@PathVariable("FloorId") String floorId) {
         log.info("Received floorIdList = {}", floorId);
         return parkingFloorService.getParkingFloor(floorId);
     }
